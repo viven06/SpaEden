@@ -1,0 +1,222 @@
+.custom-input:focus {
+    outline: none;
+    box-shadow: none;
+    background-color: #1a1a32;
+}
+
+#btn-search{
+    background-color: #6116a8;
+}
+
+#btn-search:hover {
+    background: #430f75;
+}
+
+.search_page_background{
+    background: rgb(45,44,48);
+    background: linear-gradient(94deg, rgba(45,44,48,1) 0%, rgba(92,71,98,1) 24%, rgba(60,56,84,1) 64%, rgba(87,83,91,1) 100%);
+}
+
+.gradient_background {
+    background: linear-gradient(90deg,rgba(232, 141, 123, 1) 0%, rgba(199, 141, 133, 1) 47%, rgba(194, 160, 155, 1) 100%);
+    
+
+    -webkit-animation: AnimationName 0s ease infinite;
+    -moz-animation: AnimationName 0s ease infinite;
+    -o-animation: AnimationName 0s ease infinite;
+    animation: AnimationName 0s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+    0%{background-position:0% 79%}
+    50%{background-position:100% 22%}
+    100%{background-position:0% 79%}
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:0% 79%}
+    50%{background-position:100% 22%}
+    100%{background-position:0% 79%}
+}
+@-o-keyframes AnimationName {
+    0%{background-position:0% 79%}
+    50%{background-position:100% 22%}
+    100%{background-position:0% 79%}
+}
+@keyframes AnimationName {
+    0%{background-position:0% 79%}
+    50%{background-position:100% 22%}
+    100%{background-position:0% 79%}
+}
+
+@media only screen and (width<767px){
+    .img_responsive {
+        margin-top:1.5rem;
+    }
+}
+
+.social_links{
+    padding: 13px 10px; 
+    border-radius: 5px; 
+}
+
+.social_links a{
+    text-decoration: none;
+    color: white;
+    padding:5px;
+    border-radius: 5px;
+}
+
+.social_links_list {
+    list-style-type: none;
+    padding: 0;
+}
+
+
+
+.social_links a:hover {
+    background-color: #b07064;
+}
+
+@media (max-width: 480px) {
+    #caja_titulo h1 {
+        font-size: 1.1rem; /* Cambiado para dispositivos móviles */
+        font-weight: 900;
+        line-height: 1.25;
+        letter-spacing: -0.033em;
+    }
+
+    #caja_titulo h2 {
+        font-size: 0.8rem;
+    }
+    #caja-busqueda label {
+        height: 2rem; 
+    }
+}
+
+@media (max-width: 600px){
+    #caja_primera {
+        margin-top:40px;
+    }
+}
+
+@media only screen and (min-width:481px) and (max-width: 770px) {
+    #caja_titulo h1 {
+        font-size: 1.3rem; 
+        font-weight: 900;
+        line-height: 1.25;
+        letter-spacing: -0.033em;
+    }
+
+    #caja_titulo h2 {
+        font-size: 1rem;
+    }    
+}
+
+#social_links_column {
+    border-left: #391b54 solid 3px;
+}
+
+@media only screen and (min-width:0px) and (max-width:768px) {
+    #social_links_column {
+        border-left-width:0;
+        border-top:#391b54 solid 3px;
+    }
+}
+
+.resposive_text{
+    line-height: 1.25; 
+    letter-spacing: -0.033em;
+}
+
+@media (min-width:480px){
+    .resposive_text{
+        font-size: 3rem;
+        font-weight: 900;
+        line-height: 1.25;
+        letter-spacing: -0.033em;
+    }
+}
+
+.centrar_elementos{
+    display:flex;
+    justify-content: center;
+}
+
+.bajar_elemento{
+    margin-top:5rem;
+}
+
+@media (max-width:560px){
+    .bajar_elemento{
+        margin-top: 7rem;
+    }
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: none !important;
+}
+
+#header-buttons{
+    justify-content: end;
+}
+
+@media (max-width:456px){
+    #header-buttons{
+        justify-content: space-evenly;
+        margin-top: 5px;
+    }
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 300px;
+}
+
+.notification.error {
+    background-color: #f44336;
+}
+
+.notification.success {
+    background-color: #4caf50;
+}
+
+.notification button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.lists-container {
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+@media (max-width:1025px){
+    .list-card{
+        width:100% !important;
+    }
+}
+
+#footer {
+    background: #b1d1de;
+    background: linear-gradient(90deg, rgba(177, 209, 222, 1) 0%, rgba(224, 223, 202, 1) 47%, rgba(184, 213, 224, 1) 100%);
+}
+
+.text-shadow {
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8)
+}
