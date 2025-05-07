@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
   import Layout from './components/CompsLayout/Layout';
   import HomeBody from './components/HomePage/homeBody';
-  import SearchPage from './components/SearchPage/search';
   import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
   import './Estilos/Styles.css';
   import PageNotFound from './components/pageNotFound';
-  import MyLists from './components/MyListsPage/myLists';
-  import GameDetails from './components/GameDetails/gameDetails';
   import { ModalProvider } from './components/Login_Register/ModalContext';
   import 'bootstrap/dist/css/bootstrap.min.css';
   import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -65,12 +62,8 @@ import React, { useEffect, useState } from 'react';
 
                 <Route path="/cliente/servicios" element={<Servicios/>}/>
 
-                <Route path="/search" element={<SearchPage/>}/>
-                <Route path="/game/:gameName" element={<GameDetails/>}/>
-
                 <Route path="*" element={<PageNotFound/>}/>
 
-                <Route path="/mylists" element={isLoggedIn ? <MyLists isLoggedIn={isLoggedIn}/> : <Navigate to="/" replace/>}/>
               </Route>
             </Routes>
           </BrowserRouter>
