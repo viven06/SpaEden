@@ -9,13 +9,17 @@ import React, { useEffect, useState } from 'react';
   import 'bootstrap/dist/js/bootstrap.bundle.min.js';
   import Notification from './components/Notification';
   import Loader from './components/Loader'; 
-  import Servicios from './components/Cliente/servicios';
+  import DashboardCliente from './components/Cliente/dashboardCliente';
+  import DashboardRecepcionista from './components/Recepcionista/dashboardRecepcionista';
+  import estilosCLiente from "./Estilos/estilosCliente.css"
 
 
   function App() {
     const [isLoggedIn, setIsLoggedIn]=useState(false);
     const [notification, setNotification] = useState(null);
     const [loading,setLoading]=useState(true);
+    const [userRole, setUserRole] = useState(null);
+
 //------------------------------
     useEffect(()=>{
       const timer=setTimeout(()=>{
@@ -27,14 +31,18 @@ import React, { useEffect, useState } from 'react';
 //--------------------------------------------
     useEffect(()=>{
       const token= localStorage.getItem('token');
+      const role = localStorage.getItem("role");
       if (token) {
           setIsLoggedIn(true);
+          setUserRole(role)
       } else {
           setIsLoggedIn(false);
+          setUserRole(null);
       }
     },[]);
 
     useEffect(() => { console.log('Estado de isLoggedIn:', isLoggedIn); }, [isLoggedIn]);
+    useEffect(() => { console.log("Rol del usuario:", userRole); }, [userRole]);
     useEffect(() => { 
       const userId=localStorage.getItem('userId');
       console.log('id usuario:', userId); 
@@ -54,18 +62,20 @@ import React, { useEffect, useState } from 'react';
         
         <ModalProvider>  
           <BrowserRouter>
-            {loading && <Loader/>}
+            {loading && <Loader/>} 
             {notification && ( <Notification message={notification.message} type={notification.type} onClose={() => setNotification(null)} /> )}
-            <Routes>
-              <Route path="/" element={<Layout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn}/>}>
-                <Route index element={<HomeBody/>}/>
+            {!loading && (
+              <Routes>
+                <Route path="/" element={<Layout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn}/>}>
+                  <Route index element={<HomeBody/>}/>
+                  {isLoggedIn && userRole === "cliente" && <Route path="/dashboard_cliente" element={<DashboardCliente />} />}
+                  {isLoggedIn && userRole === "recepcionista" && <Route path="/dashboard_recepcionista" element={<DashboardRecepcionista />} />}
+                  
+                  <Route path="*" element={<PageNotFound/>}/>
 
-                <Route path="/cliente/servicios" element={<Servicios/>}/>
-
-                <Route path="*" element={<PageNotFound/>}/>
-
-              </Route>
-            </Routes>
+                </Route>
+              </Routes>
+            )}          
           </BrowserRouter>
         </ModalProvider>        
     );

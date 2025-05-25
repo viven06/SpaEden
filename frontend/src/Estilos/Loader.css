@@ -8,14 +8,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgb(21,17,34);
-    background:linear-gradient(94deg, rgba(21,17,34,1) 0%, rgba(45,12,55,1) 24%, rgba(28,20,77,1) 64%, rgba(14,7,24,1) 100%);
+    background:#faf7f9;
     z-index: 9999;
 }
 
 .loader {
     border: 10px solid #f3f3f3;
-    border-top: 10px solid #8720af;
+    border-top: 10px solid #f4a6a6;
     border-radius: 50%;
     width: 90px;
     height: 90px;

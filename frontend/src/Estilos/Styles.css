@@ -220,3 +220,110 @@ input:focus, textarea:focus, select:focus {
 .text-shadow {
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8)
 }
+
+.sidebar-left, .sidebar-right {
+    width: 90px; 
+    height: 100%; 
+    background-color: #f4a6a6; 
+    position: fixed;
+    top: 0;
+}
+
+.sidebar-left {
+    left: 0;
+}
+
+.sidebar-right {
+    right: 0;
+}
+
+.content {
+    flex-grow: 1; 
+    max-width: 900px;
+}
+
+.dashboard-container {
+    max-width: 900px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.sub-title {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.filter-section {
+    margin-bottom: 15px;
+}
+
+.solicitudes-container {
+    margin-top: 20px;
+}
+
+.scrollable-box {
+    max-height: 420px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+}
+
+.scrollable-services-box {
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
+
+.table-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.table-header, .table-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.table-header {
+    font-weight: bold;
+    background-color: #EDD8E2;
+}
+
+.col-usuario, .col-fecha, .col-estado, .col-acciones, .col-franja, .col-servicio, .col-hora, .col-precio, .col-nombre, .col-duracion {
+    flex: 1;
+    text-align: center;
+}
+
+.gestion-solicitud {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    width:45vw;
+    justify-self: center;
+}
+
+.gestion-solicitud h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.btnrc {
+    width: 100px;
+    margin-right: 10px;
+}

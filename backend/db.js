@@ -1,35 +1,15 @@
+require('dotenv').config();
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('mygamelogpc', 'root', '', {
-    host: 'localhost',
-    dialect: 'mysql'
+
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+    host: process.env.DB_HOST,
+    dialect: 'postgres'
 });
 
-const Juego = sequelize.define('Juego', {
-    juego_id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
-    },
-    titulo: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    plataforma: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    fecha_lanzamiento: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    sinopsis: {
-        type: DataTypes.TEXT,
-        allowNull: false
-    }
-}, {
-    tableName: 'juegos',
-    timestamps: false
-});
+sequelize.authenticate()
+    .then(() => console.log('Conexión exitosa con PostgreSQL'))
+    .catch(err => console.error('Error de conexión:', err));
+
 
 const Usuario = sequelize.define('Usuario',{
     id_usuario:{
@@ -45,85 +25,145 @@ const Usuario = sequelize.define('Usuario',{
         type: DataTypes.STRING,
         allowNull: false
     },
-    usuario:{
-        type: DataTypes.STRING,
-        allowNull: false
-    },
     email:{
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     contraseña:{
         type: DataTypes.STRING,
         allowNull: false
+    },
+    rol: { 
+        type: DataTypes.ENUM('cliente', 'recepcionista'),
+        allowNull: false,
+        defaultValue: 'cliente'
     }
+
 }, {
     tableName: 'usuarios',
     timestamps: false
 });
 
-const Lista = sequelize.define('List', {
-    id_lista: {
+const Empleado = sequelize.define('Empleado', {
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
+    },
+    usuario_id: { 
         type: DataTypes.INTEGER,
-        autoIncrement:true,
-        primaryKey:true
+        references: {
+            model: 'usuarios',
+            key: 'id_usuario'
+        },
+        allowNull: true,
+        unique: true 
     },
-    tipo:{
-        type:DataTypes.ENUM('Completed','Playing','Plan to Play'),
-        allowNull:false
-    },
-    id_usuario:{
-        type:DataTypes.INTEGER,
-        references:{
-            model:Usuario,
-            key:'id_usuario'
-        }
-    }
-},{
-    tableName:'listas',
-    timestamps:false
+    nombre: { type: DataTypes.STRING, allowNull: false },
+    especialidad: { type: DataTypes.STRING, allowNull: false } // Ej: masajista, estilista, etc.
+}, {
+    tableName: 'empleados',
+    timestamps: false
 });
 
-const JuegoLista = sequelize.define('JuegoLista',{
-    id_relacion:{
-        type:DataTypes.INTEGER,
-        autoIncrement:true,
-        primaryKey:true
+
+const Servicio = sequelize.define('Servicio', {
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
     },
-    id_lista:{
-        type:DataTypes.INTEGER,
-        references:{
-            model:Lista,
-            key:'id_lista'
+    nombre: { type: DataTypes.STRING, allowNull: false },
+    precio: { type: DataTypes.FLOAT, allowNull: false },
+    duracion: { type: DataTypes.INTEGER, allowNull: false } // Duración en minutos
+}, {
+    tableName: 'servicios',
+    timestamps: false
+});
+
+const SolicitudCita = sequelize.define('SolicitudCita', {
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
+    },
+    usuario_id: {
+        type: DataTypes.INTEGER, // Referencia al usuario
+        allowNull: false,
+        references: {
+            model: 'usuarios',
+            key: 'id_usuario'
         }
     },
-    juego_id:{
-        type:DataTypes.INTEGER,
-        references:{
-            model:Juego,
-            key:'juego_id'
-        }
+    fecha: {
+        type: DataTypes.DATEONLY,
+        allowNull: false
     },
-    puntuacion:{
-        type:DataTypes.DECIMAL(4,2),
-        allowNull:true
+    franja_horaria: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    estado: {
+        type: DataTypes.ENUM('pendiente', 'aceptada', 'rechazada'),
+        defaultValue: 'pendiente'
+    },
+    servicio_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: 'servicios',
+            key: 'id'
+        }
     }
+}, {
+    tableName: 'solicitudes_cita',
+    timestamps: false
+});
 
-},{
-    tableName:'juegos_en_listas',
-    timestamps:false
-})
+const Cita = sequelize.define('Cita', {
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
+    },
+    solicitud_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: 'solicitudes_cita',
+            key: 'id'
+        }
+    },
+    empleado_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: 'empleados',
+            key: 'id'
+        }
+    },
+    fecha: { type: DataTypes.DATEONLY, allowNull: false },
+    hora: { type: DataTypes.STRING, allowNull: false }
+}, {
+    tableName: 'citas',
+    timestamps: false
+});
 
-Usuario.hasMany(Lista, {foreignKey: 'id_usuario'});
-Lista.belongsTo(Usuario, {foreignKey: 'id_usuario'});
+Usuario.hasMany(SolicitudCita, { foreignKey: 'usuario_id', as: 'solicitudes' });
+SolicitudCita.belongsTo(Usuario, { foreignKey: 'usuario_id', as: 'usuario' });
 
-Juego.belongsToMany(Lista, {through: JuegoLista, foreignKey:'juego_id'});
-Lista.belongsToMany(Juego, {through: JuegoLista, foreignKey:'id_lista'});
+Servicio.hasMany(SolicitudCita, { foreignKey: 'servicio_id', as: 'solicitudes' });
+SolicitudCita.belongsTo(Servicio, { foreignKey: 'servicio_id', as: 'servicio' });
 
-JuegoLista.belongsTo(Lista, {foreignKey: 'id_lista'});
-JuegoLista.belongsTo(Juego,{foreignKey:'juego_id'});
+SolicitudCita.hasOne(Cita, { foreignKey: 'solicitud_id', as: 'cita' });
+Cita.belongsTo(SolicitudCita, { foreignKey: 'solicitud_id', as: 'solicitud' });
 
-Lista.hasMany(JuegoLista, {foreignKey:'id_lista'});
-Juego.hasMany(JuegoLista, {foreignKey:'juego_id'});
+Empleado.hasMany(Cita, { foreignKey: 'empleado_id', as: 'citas' });
+Cita.belongsTo(Empleado, { foreignKey: 'empleado_id', as: 'empleado' });
 
-module.exports = { sequelize, Juego, Usuario, Lista, JuegoLista};
+Usuario.hasOne(Empleado, { foreignKey: 'usuario_id', as: 'empleado' });
+Empleado.belongsTo(Usuario, { foreignKey: 'usuario_id', as: 'usuario' });
+
+
+module.exports = { sequelize, Usuario, SolicitudCita, Servicio, Empleado, Cita};

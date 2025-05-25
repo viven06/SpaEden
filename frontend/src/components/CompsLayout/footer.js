@@ -2,12 +2,12 @@ import React from "react";
 
 const Footer=()=>{
     return(
-        <footer id="footer" className="text-light py-4" style={{backgroundColor:'#b7c9c9'}}>
+        <footer className="text-light py-4" style={{backgroundColor:'#faf0f5',borderTop:"3px solid #ddd"}}>
             <div className="container">
                 <div className="row justify-content-center">
                     
                     {/* <!-- Social Links Column --> */}
-                    <div className="w-50 h-50 text-center rounded" style={{background:'#b07c72',background:'linear-gradient(90deg,rgba(176, 124, 114, 1) 0%, rgba(194, 156, 149, 1) 47%, rgba(217, 154, 143, 1) 100%)'}}>
+                    <div className="w-50 h-50 text-center rounded" style={{background:'#e89a8b'}}>
                         <h5 className="fs-1 mb-3 text-center text-shadow">Redes Sociales</h5>
                         <ul className="text-center social_links_list" >
                             <li className="social_links text-shadow">

@@ -1,18 +1,21 @@
 import React from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { useModal } from "../Login_Register/ModalContext";
-import LogoSpa from "../../Imagenes/Logo_Spa.svg"
-
+import LogoSpa from "../../Imagenes/Logo_Spa.svg";
 
 const Header=({isLoggedIn, logout})=>{
     const { showModal } = useModal();
     const navigate= useNavigate();
+    const userRole = localStorage.getItem("role");
 
-    const handleMyListsClick = () => { 
-        if (isLoggedIn) { 
-            navigate('/mylists'); // Redirigir a My Lists si está autenticado 
-        } 
-        else { showModal('auth'); // Mostrar modal de autenticación si no está autenticado 
+    const handleDashboardClick = () => { 
+        if (isLoggedIn && userRole === "cliente") { 
+            navigate('/dashboard_cliente'); // Redirige al dashboard cliente si es cliente
+        }
+        else if (isLoggedIn && userRole === "recepcionista") {
+             navigate('/dashboard_recepcionista'); // Redirige al dashboard recepcionista si es recepcionista
+        }else { 
+            showModal('auth'); // Abre el modal de login si no está autenticado
         }
     };
 
@@ -26,12 +29,24 @@ const Header=({isLoggedIn, logout})=>{
                     <h1 onMouseOver={(e) => e.currentTarget.style.color = 'lightgray'} onMouseOut={(e) => e.currentTarget.style.color = 'white'} className="h5 fw-bolder mt-2" style={{ color: 'white', letterSpacing: '-0.015em' }}> Spa Eden</h1>
                 </Link>
             </div>
-            
+
             <div id="header-buttons" className="d-flex flex-grow-1" style={{ gap: '0.5rem' }}>
+
+                {isLoggedIn && userRole === "cliente" && (
+                    <button className="btn mx-4" style={{color:"white", backgroundColor:"#e89a8b"}} onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#b07064'} onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#e89a8b'} onClick={handleDashboardClick}>
+                        Ir mi Dashboard
+                    </button>
+                )}
+
+                {isLoggedIn && userRole === "recepcionista" && (
+                    <button className="btn mx-4" style={{color:"white", backgroundColor:"#e89a8b"}} onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#b07064'} onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#e89a8b'} onClick={handleDashboardClick}>
+                        Ir Dashboard de Empleado
+                    </button>
+                )}
 
                 <div className="d-flex" style={{ gap: '0.5rem' }}>
                     {isLoggedIn ? (
-                        <button className="btn d-flex align-items-center overflow-hidden text-white" style={{borderRadius:'50%', width: '40px', height: '40px', backgroundColor: '#e89a8b'}} onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#3a0d64'} onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#6116a8'} onClick={logout}>
+                        <button className="btn d-flex align-items-center overflow-hidden text-white" style={{borderRadius:'50%', width: '40px', height: '40px', backgroundColor: '#e89a8b'}} onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#b07064'} onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#e89a8b'} onClick={logout}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
                                 <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>

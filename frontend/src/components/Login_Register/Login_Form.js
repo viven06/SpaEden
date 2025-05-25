@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import { Form, Button, Container, InputGroup } from 'react-bootstrap';
 import "../../Estilos/Styles.css"
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = ({ setIsLoggedIn, onSubmit  }) => {
     const [email, setEmail] = useState('');
     const [contraseña, setContraseña] = useState('');
-
     const [showPassword, setShowPassword] = useState(false);
     const [validated, setValidated] = useState(false);
     const [message,SetMessage] = useState('');
+    const [loading,setLoading] = useState(false);
+
+    const navigate = useNavigate();
+
     
     const handleLogin = async (event) => {
         const form = event.currentTarget;
@@ -26,16 +30,28 @@ const LoginForm = ({ setIsLoggedIn, onSubmit  }) => {
                     contraseña
                 });
 
-                //console.log('Respuesta del servidor:', response.data); // Verifica la respuesta del servidor
-
-                const {token, id_usuario} = response.data;
+                const {token, id_usuario, rol, nombre} = response.data;
 
                 localStorage.setItem('token', token);
                 localStorage.setItem('userId',id_usuario);
+                localStorage.setItem('role', rol); 
+                localStorage.setItem("nombre", nombre);
 
                 setIsLoggedIn(true);
+                setLoading(true);
                 SetMessage('Inicio de Sesion exitoso!'); 
                 onSubmit(response.data);
+
+                setTimeout(() => {
+                    if (rol === "cliente") {
+                        navigate("/dashboard_cliente");
+                    }
+                    else if (rol === "recepcionista") {
+                        navigate("/dashboard_recepcionista");
+                    }
+                    window.location.reload();
+                }, 200);
+
             } catch (error) {
                 console.error('Error', error);
                 SetMessage('Usuario o contraseña incorrectos');
@@ -50,20 +66,20 @@ const LoginForm = ({ setIsLoggedIn, onSubmit  }) => {
     };
 
     return (
-        <Container style={{ maxWidth: '400px', marginTop: '10px', backgroundColor: '#2c2c54', padding: '20px', borderRadius: '10px', color: 'white' }}>
+        <Container style={{ maxWidth: '400px', marginTop: '10px', backgroundColor: '#a64721', padding: '20px', borderRadius: '10px', color: 'white' }}>
             <h2 className="text-center">Login</h2>
             <Form noValidate validated={validated} onSubmit={handleLogin}>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email</Form.Label>
-                    <Form.Control required type="email" style={{ backgroundColor: '#1e1e2f', color: 'white', border: 'none' }} value={email} onChange={(e)=> setEmail(e.target.value)}  />
+                    <Form.Control required type="email" placeholder='Correo' style={{ backgroundColor: '#d6bfc8', color: 'black', border: 'none' }} value={email} onChange={(e)=> setEmail(e.target.value)}  />
                     <Form.Control.Feedback type="invalid">Please provide an email.</Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label>Contraseña</Form.Label>
                     <InputGroup>
-                        <Form.Control type={showPassword ? 'text': 'password'} required style={{ backgroundColor: '#1e1e2f', color: 'white', border: 'none' }} value={contraseña} onChange={(e) => setContraseña(e.target.value)} />
-                        <InputGroup.Text onClick={togglePasswordVisibility} style={{ cursor: 'pointer', backgroundColor: '#1e1e2f', border: 'none',color:"white" }}>
+                        <Form.Control type={showPassword ? 'text': 'password'} placeholder='Contraseña' required style={{ backgroundColor: '#d6bfc8', color: 'black', border: 'none' }} value={contraseña} onChange={(e) => setContraseña(e.target.value)} />
+                        <InputGroup.Text onClick={togglePasswordVisibility} style={{ cursor: 'pointer', backgroundColor: '#d6bfc8', border: 'none',color:"black",borderTopRightRadius: '6px', borderBottomRightRadius: '6px' }}>
                             {showPassword ? (
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
                                     <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
@@ -77,12 +93,12 @@ const LoginForm = ({ setIsLoggedIn, onSubmit  }) => {
                                 </svg>
                             )}
                         </InputGroup.Text>
-                        <Form.Control.Feedback type="invalid">Please provide a password.</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Por favor ingresa una contraseña.</Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
 
-                <Button variant="primary" type="submit" style={{marginLeft:"3rem", marginTop: '20px' , width: '75%', backgroundColor: '#6c63ff', border: 'none' }}>
-                    Login
+                <Button variant="primary" type="submit" style={{marginLeft:"3rem", marginTop: '20px' , width: '75%', backgroundColor: '#cf6551', border: 'none' }}>
+                    Ingresar
                 </Button>
             </Form>
         </Container>

@@ -1,0 +1,16 @@
+.container {
+    max-width: 950px;
+}
+
+.list-group-item {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+button {
+    transition: 0.3s ease;
+}
+
+button:hover {
+    opacity: 0.8;
+}

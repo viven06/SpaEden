@@ -5,7 +5,6 @@ import axios from 'axios';
 const RegisterForm = () => {
     const [nombre, setNombre] = useState('');
     const [apellido, setApellido] = useState('');
-    const [usuario, setUsuario] = useState('')
     const [email, setEmail] = useState('');
     const [contraseña, setContraseña] = useState('');
     
@@ -23,7 +22,6 @@ const RegisterForm = () => {
                 const response = await axios.post('http://localhost:8000/users/register', {
                     nombre,
                     apellido,
-                    usuario,
                     email,
                     contraseña
                 }); 
@@ -42,17 +40,17 @@ const RegisterForm = () => {
     };
 
     return (
-            <Container style={{ maxWidth: '400px', marginTop: '10px', backgroundColor: '#2c2c54', padding: '20px', borderRadius: '10px', color: 'white' }}>
-                <h2 className="text-center">Register</h2>
+            <Container style={{ maxWidth: '400px', marginTop: '10px', backgroundColor: '#a64721', padding: '20px', borderRadius: '10px', color: 'white' }}>
+                <h2 className="text-center">Registro</h2>
                 <Form noValidate validated={valid} onSubmit={handleSubmit}>
                     <Row className="mb-3">
                         <Form.Group as={Col} controlId="formFirstName">
-                            <Form.Label>First Name</Form.Label>
+                            <Form.Label>Nombre</Form.Label>
                             <Form.Control
                                 required
                                 type="text"
-                                placeholder="First Name"
-                                style={{ backgroundColor: '#1e1e2f', color: 'white', border: 'none' }}
+                                placeholder="Nombre"
+                                style={{ backgroundColor: '#d6bfc8', color: 'black', border: 'none' }}
                                 value={nombre}
                                 onChange={(e) => setNombre(e.target.value)}
                             />
@@ -60,12 +58,12 @@ const RegisterForm = () => {
                         </Form.Group>
 
                         <Form.Group as={Col} controlId="formLastName">
-                            <Form.Label>Last Name</Form.Label>
+                            <Form.Label>Apellidos</Form.Label>
                             <Form.Control
                                 required
                                 type="text"
-                                placeholder="Last Name"
-                                style={{ backgroundColor: '#1e1e2f', color: 'white', border: 'none' }}
+                                placeholder="Apellidos"
+                                style={{ backgroundColor: '#d6bfc8', color: 'black', border: 'none' }}
                                 value={apellido}
                                 onChange={(e) => setApellido(e.target.value)}
                             />
@@ -73,26 +71,13 @@ const RegisterForm = () => {
                         </Form.Group>
                     </Row>
 
-                    <Form.Group controlId="formUsername">
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control
-                            required
-                            type="text"
-                            placeholder="Username"
-                            style={{ backgroundColor: '#1e1e2f', color: 'white', border: 'none' }}
-                            value={usuario}
-                            onChange={(e) => setUsuario(e.target.value)}
-                        />
-                        <Form.Control.Feedback type="invalid">Please provide a username.</Form.Control.Feedback>
-                    </Form.Group>
-
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email</Form.Label>
                         <Form.Control
                             required
                             type="email"
                             placeholder="Correo"
-                            style={{ backgroundColor: '#1e1e2f', color: 'white', border: 'none' }}
+                            style={{ backgroundColor: '#d6bfc8', color: 'black', border: 'none' }}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
@@ -100,10 +85,10 @@ const RegisterForm = () => {
                     </Form.Group>
 
                     <Form.Group controlId="formBasicPassword">
-                        <Form.Label>Password</Form.Label>
+                        <Form.Label>Contraseña</Form.Label>
                             <InputGroup>
-                                <Form.Control required type={showPassword ? 'text': 'password'} placeholder="Contraseña" style={{ backgroundColor: '#1e1e2f', color: 'white', border: 'none' }} value={contraseña} onChange={(e) => setContraseña(e.target.value)}/>
-                                <InputGroup.Text onClick={togglePasswordVisibility} style={{ cursor: 'pointer', backgroundColor: '#1e1e2f', border: 'none',color:"white" }}>
+                                <Form.Control required type={showPassword ? 'text': 'password'} placeholder="Contraseña" style={{ backgroundColor: '#d6bfc8', color: 'black', border: 'none' }} value={contraseña} onChange={(e) => setContraseña(e.target.value)}/>
+                                <InputGroup.Text onClick={togglePasswordVisibility} style={{ cursor: 'pointer', backgroundColor: '#d6bfc8', border: 'none',color:"black",borderTopRightRadius: '6px', borderBottomRightRadius: '6px' }}>
                                 {showPassword ? (
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
                                     <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
@@ -117,11 +102,11 @@ const RegisterForm = () => {
                                 </svg>
                                 )}
                                 </InputGroup.Text>
-                                <Form.Control.Feedback type="invalid">Please provide a password.</Form.Control.Feedback>
+                                <Form.Control.Feedback type="invalid">Por favor ingresse una contraseña.</Form.Control.Feedback>
                             </InputGroup>
                     </Form.Group>
-                    <Button variant="primary" type="submit" style={{ marginLeft:"3rem", marginTop: '20px', width: '75%', backgroundColor: '#6c63ff', border: 'none' }}>
-                        Register
+                    <Button variant="primary" type="submit" style={{ marginLeft:"3rem", marginTop: '20px', width: '75%', backgroundColor: '#cf6551', border: 'none' }}>
+                        Registrarse
                     </Button>
                 </Form>
         </Container>    
