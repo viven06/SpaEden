@@ -26,7 +26,7 @@ router.post('/register', async (req, res) => {
         nombre,
         apellido,
         email,
-        contraseña: hashedPassword
+        password: hashedPassword
       });
 
       res.status(201).json({ message: 'Usuario registrado exitosamente!' });
@@ -59,7 +59,7 @@ router.post('/login', async (req,res)=>{
         return res.status(401).json({message: 'Correo o Contraseña Incorrectos.'})
       }
 
-      const isMatch= await bcrypt.compare(contraseña, usuario.contraseña);
+      const isMatch= await bcrypt.compare(contraseña, usuario.password);
 
       console.log('Contraseña coincide:', isMatch);
 

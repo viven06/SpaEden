@@ -1,9 +1,16 @@
 require('dotenv').config();
 const { Sequelize, DataTypes } = require('sequelize');
 
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
-    host: process.env.DB_HOST,
-    dialect: 'postgres'
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres',
+    protocol: 'postgres',
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
+    }
+
 });
 
 sequelize.authenticate()
@@ -30,7 +37,7 @@ const Usuario = sequelize.define('Usuario',{
         allowNull: false,
         unique: true
     },
-    contraseña:{
+    password:{
         type: DataTypes.STRING,
         allowNull: false
     },
