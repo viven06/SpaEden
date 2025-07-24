@@ -16,7 +16,7 @@ const DashboardCliente = () => {
     useEffect(() => {
         const fetchServicios = async () => {
             try {
-                const response = await axios.get("http://localhost:8000/servicios");
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/servicios`);
                 setServicios(response.data);
             } catch (error) {
                 console.error("Error al obtener servicios:", error);
@@ -30,7 +30,7 @@ const DashboardCliente = () => {
         try {
             const token = localStorage.getItem("token"); 
 
-            const response = await axios.get(`http://localhost:8000/solicitudes/${userId}`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/solicitudes/${userId}`, {
                 headers: {
                     Authorization:  `Bearer ${token} `
                 }
@@ -56,7 +56,7 @@ const DashboardCliente = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post("http://localhost:8000/solicitudes", {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/solicitudes`, {
                 usuario_id: userId, 
                 fecha: nuevaSolicitud.fecha, 
                 franja_horaria: nuevaSolicitud.franja_horaria,

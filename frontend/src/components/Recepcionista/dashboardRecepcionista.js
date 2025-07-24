@@ -16,7 +16,7 @@ const DashboardRecepcionista = () => {
 
     const fetchSolicitudes = async () => {
             try {
-                const response = await axios.get("http://localhost:8000/solicitudes", {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/solicitudes`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setSolicitudes(response.data);
@@ -32,7 +32,7 @@ const DashboardRecepcionista = () => {
         }
 
         try {
-            const response = await axios.get(`http://localhost:8000/citas/${empleadoId}`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/citas/${empleadoId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setCitas(response.data);
@@ -48,7 +48,7 @@ const DashboardRecepcionista = () => {
     useEffect(() => {
         const fetchEmpleados = async () => {
             try {
-                const response = await axios.get("http://localhost:8000/empleados", {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/empleados`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const empleadosFiltrados = response.data.filter(empleado => empleado.especialidad !== "Recepcionista");
@@ -75,7 +75,7 @@ const DashboardRecepcionista = () => {
         }
 
         try {
-            await axios.patch(`http://localhost:8000/solicitudes/${solicitudSeleccionada.id}`, {
+            await axios.patch(`${process.env.REACT_APP_API_URL}/solicitudes/${solicitudSeleccionada.id}`, {
                 estado: "aceptada",
                 empleado_id: empleadoAsignado,
                 hora: horaAsignada
@@ -95,7 +95,7 @@ const DashboardRecepcionista = () => {
 
     const rechazarSolicitud = async (solicitudId) => {
         try {
-            await axios.patch(`http://localhost:8000/solicitudes/${solicitudId}`, {
+            await axios.patch(`${process.env.REACT_APP_API_URL}/solicitudes/${solicitudId}`, {
                 estado: "rechazada"
             }, {
                 headers: { Authorization: `Bearer ${token}` }

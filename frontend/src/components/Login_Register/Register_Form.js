@@ -19,7 +19,7 @@ const RegisterForm = () => {
         } else {
             event.preventDefault();
             try { //Manda los datos del formulario usando fetch POST
-                const response = await axios.post('http://localhost:8000/users/register', {
+                const response = await axios.post(`${process.env.REACT_APP_API_URL}/users/register`, {
                     nombre,
                     apellido,
                     email,
